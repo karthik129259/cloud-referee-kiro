@@ -1,89 +1,156 @@
-# ☁️ Cloud Referee - AWS Bedrock vs OpenAI API
+# Cloud Referee
 
-> A tool that **compares options and explains trade-offs**, instead of giving a single answer.
+A command-line tool that compares AWS Bedrock and OpenAI API based on user constraints, providing trade-off analysis instead of a single recommendation.
 
-## 🎯 Problem
+## Problem Statement
 
-Developers often get one-sided answers when choosing AI platforms. This leads to poor architectural decisions because:
-- Every project has different constraints
-- There is no universally "best" tool
-- Trade-offs matter more than rankings
+Developers frequently face challenges when selecting AI platforms:
+- Most recommendations are one-sided without context
+- Trade-offs between services are not clearly explained
+- Decision criteria vary based on project requirements
 
-## ✅ Solution
+## Solution
 
-**Cloud Referee** compares AWS Bedrock and OpenAI API based on **your real constraints**:
-- Budget (low/medium/high)
-- Data Privacy (low/high)
-- Scalability needs (low/high)
-- Vendor lock-in tolerance (low/high)
+Cloud Referee takes user-defined constraints and generates a balanced comparison:
+- Analyzes both options objectively
+- Lists pros and cons for each service
+- Provides conditional recommendations based on specific use cases
 
-Instead of saying "X is better", it explains:
-- ✅ Pros of each option
-- ❌ Cons of each option
-- ⚖️ Conditional verdict: "Choose A if..., Choose B if..."
+## Features
 
-## 🛠️ How Kiro Helped
+- Constraint-based comparison (budget, data privacy, scalability, vendor lock-in)
+- Structured pros/cons output for both AWS Bedrock and OpenAI API
+- Conditional verdict system (no absolute "best" answer)
+- CLI interface for quick evaluation
 
-Kiro accelerated development by:
-- **Prompt Design**: Helped craft the referee prompt logic
-- **Code Generation**: Generated comparison logic structure
-- **Debugging**: Identified edge cases in constraint handling
-- **Refinement**: Improved output formatting
-
-## 📁 Project Structure
+## Project Structure
 
 ```
 cloud-referee-kiro/
-├── app.py                    # Main application
-├── referee.py                # Core comparison logic
+├── app.py                      # Main application entry point
+├── referee.py                  # Core comparison logic
 ├── prompts/
-│   └── referee_prompt.txt    # Referee prompt template
-├── .kiro/                    # Kiro session data
+│   └── referee_prompt.txt      # Referee prompt template
+├── .kiro/                      # Kiro configuration
 └── README.md
 ```
 
-## 🚀 How to Run
+## Installation
 
 ```bash
-# Clone the repo
 git clone https://github.com/karthik129259/cloud-referee-kiro.git
 cd cloud-referee-kiro
+```
 
-# Run the application
+## Usage
+
+```bash
 python app.py
 ```
 
-## 📊 Example Output
+The application will prompt for the following constraints:
+- Budget: low / medium / high
+- Data Privacy: low / high
+- Scalability: low / high
+- Vendor Lock-in Tolerance: low / high
+
+## Example Output
 
 ```
-☁️  CLOUD REFEREE - AWS Bedrock vs OpenAI API
+============================================================
+CLOUD REFEREE - AWS Bedrock vs OpenAI API
 ============================================================
 
-🔷 AWS BEDROCK
-  ✅ Pros:
-     • Data stays within AWS infrastructure
-     • Access to multiple AI models (Claude, Llama, Titan)
-  ❌ Cons:
-     • May require AWS expertise
+Enter your constraints to get a personalized comparison:
 
-🔶 OPENAI API
-  ✅ Pros:
-     • Access to GPT-4 and latest models
-     • Simple setup and integration
-  ❌ Cons:
-     • Data sent to external servers
+Budget (low/medium/high): medium
+Data Privacy requirement (low/high): high
+Scalability needs (low/high): high
+Vendor lock-in tolerance (low/high): low
 
-⚖️  VERDICT
-Choose AWS Bedrock if you need high data privacy...
-Choose OpenAI API if you want fastest access to GPT models...
+============================================================
+COMPARISON RESULTS
+============================================================
+
+AWS BEDROCK
+  Pros:
+     - Data stays within AWS infrastructure - better for compliance
+     - VPC integration for isolated environments
+     - Flexible pricing with multiple model options
+     - Seamless scaling with AWS infrastructure
+     - Auto-scaling and load balancing built-in
+     - Access to multiple AI models (Claude, Llama, Titan, etc.)
+     - Native AWS service integration (Lambda, S3, etc.)
+  Cons:
+     - Tighter AWS ecosystem integration may increase dependency
+
+OPENAI API
+  Pros:
+     - Transparent token-based pricing
+     - Easier to switch - standard REST API
+     - Model-agnostic integration possible
+     - Access to GPT-4 and latest OpenAI models
+     - Extensive documentation and community support
+     - Rapid model updates and improvements
+  Cons:
+     - Data sent to external OpenAI servers
+     - Rate limits may require enterprise plan
+
+============================================================
+VERDICT (Trade-off Based)
+============================================================
+
+Choose AWS BEDROCK if:
+   - You need high data privacy and compliance (HIPAA, SOC2)
+   - You are already in the AWS ecosystem
+   - You need access to multiple AI models (Claude, Llama, Titan)
+   - You require enterprise-grade scaling
+
+Choose OPENAI API if:
+   - You want fastest access to cutting-edge GPT models
+   - You prefer simple setup and integration
+   - You are building prototypes or MVPs quickly
+   - You want strong community support and resources
+
+Based on your HIGH data privacy requirement:
+   AWS Bedrock is strongly recommended
 ```
 
-## 🏆 AI for Bharat - Kiro Week 6 Challenge
+## How It Works
 
-This project was built for **Kiro Week 6: The Referee** challenge.
+1. User inputs constraints via CLI
+2. `CloudReferee` class evaluates constraints against service characteristics
+3. Pros and cons are dynamically generated based on input
+4. Conditional verdict provides context-aware recommendations
 
-**Challenge Goal**: Build a tool that compares options and explains trade-offs, helping users choose rather than just consume information.
+## Technical Details
 
-## 📝 License
+- Language: Python 3
+- Dependencies: None (standard library only)
+- Architecture: Modular design with separate referee logic
+
+## Comparison Criteria
+
+| Constraint | AWS Bedrock Advantage | OpenAI API Advantage |
+|------------|----------------------|---------------------|
+| High Data Privacy | Data stays in AWS VPC | - |
+| Low Budget | - | Predictable per-token pricing |
+| High Scalability | Native AWS auto-scaling | - |
+| Low Vendor Lock-in | - | Standard REST API |
+
+## AI for Bharat - Kiro Week 6 Challenge
+
+This project was developed for the Kiro Week 6: The Referee challenge.
+
+Challenge objective: Build a tool that compares options and explains trade-offs, helping users make informed decisions rather than providing single-answer recommendations.
+
+## Development
+
+Built using Kiro for:
+- Prompt engineering and refinement
+- Code structure generation
+- Logic optimization
+
+## License
 
 MIT
