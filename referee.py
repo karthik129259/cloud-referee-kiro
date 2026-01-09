@@ -30,7 +30,7 @@ class Referee:
             The prompt text as a string
         """
         try:
-            with open(self.prompt_file, 'r') as f:
+            with open(self.prompt_file, 'r', encoding='utf-8') as f:
                 return f.read().strip()
         except FileNotFoundError:
             return "Default referee prompt: Evaluate the input fairly and objectively."
