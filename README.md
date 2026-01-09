@@ -16,6 +16,134 @@ Cloud Referee takes user-defined constraints and generates a balanced comparison
 - Lists pros and cons for each service
 - Provides conditional recommendations based on specific use cases
 
+## Architecture Flowchart
+
+```mermaid
+flowchart TD
+    A[User Starts Application] --> B[app.py]
+    B --> C{Input Constraints}
+    
+    C --> D[Budget: low/medium/high]
+    C --> E[Data Privacy: low/high]
+    C --> F[Scalability: low/high]
+    C --> G[Vendor Lock-in: low/high]
+    
+    D --> H[CloudReferee.compare]
+    E --> H
+    F --> H
+    G --> H
+    
+    H --> I[referee.py]
+    
+    I --> J{Analyze Each Constraint}
+    
+    J --> K[Data Privacy Analysis]
+    J --> L[Budget Analysis]
+    J --> M[Scalability Analysis]
+    J --> N[Vendor Lock-in Analysis]
+    
+    K --> O[Generate AWS Bedrock Pros/Cons]
+    L --> O
+    M --> O
+    N --> O
+    
+    K --> P[Generate OpenAI API Pros/Cons]
+    L --> P
+    M --> P
+    N --> P
+    
+    O --> Q[Build Conditional Verdict]
+    P --> Q
+    
+    Q --> R[Output Results]
+    
+    R --> S[AWS Bedrock: Pros and Cons]
+    R --> T[OpenAI API: Pros and Cons]
+    R --> U[Conditional Recommendation]
+```
+
+## Decision Logic Flowchart
+
+```mermaid
+flowchart LR
+    subgraph Input
+        A1[Budget]
+        A2[Data Privacy]
+        A3[Scalability]
+        A4[Vendor Lock-in]
+    end
+    
+    subgraph Analysis
+        B1{Privacy = High?}
+        B2{Budget = Low?}
+        B3{Scalability = High?}
+        B4{Lock-in = Low?}
+    end
+    
+    subgraph AWS Bedrock Factors
+        C1[VPC Integration]
+        C2[Enterprise Pricing]
+        C3[Auto-scaling]
+        C4[Multi-model Access]
+    end
+    
+    subgraph OpenAI API Factors
+        D1[Simple Integration]
+        D2[Pay-per-token]
+        D3[Standard REST API]
+        D4[GPT-4 Access]
+    end
+    
+    A2 --> B1
+    A1 --> B2
+    A3 --> B3
+    A4 --> B4
+    
+    B1 -->|Yes| C1
+    B1 -->|No| D1
+    B2 -->|Yes| D2
+    B2 -->|No| C2
+    B3 -->|Yes| C3
+    B3 -->|No| D1
+    B4 -->|Yes| D3
+    B4 -->|No| C4
+```
+
+## Component Diagram
+
+```mermaid
+flowchart TB
+    subgraph Application Layer
+        APP[app.py<br>Entry Point]
+    end
+    
+    subgraph Core Logic
+        REF[referee.py<br>CloudReferee Class]
+        COMP[compare method]
+        VERD[_build_verdict method]
+    end
+    
+    subgraph Data Layer
+        PROMPT[prompts/referee_prompt.txt]
+        SERVICES[Service Definitions]
+    end
+    
+    subgraph Output
+        PROS[Pros List]
+        CONS[Cons List]
+        VERDICT[Conditional Verdict]
+    end
+    
+    APP --> REF
+    REF --> COMP
+    COMP --> VERD
+    REF --> SERVICES
+    REF --> PROMPT
+    COMP --> PROS
+    COMP --> CONS
+    VERD --> VERDICT
+```
+
 ## Features
 
 - Constraint-based comparison (budget, data privacy, scalability, vendor lock-in)
